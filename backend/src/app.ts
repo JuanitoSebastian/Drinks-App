@@ -1,4 +1,5 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import DrinksRouter from './controllers/drinks';
 import cors from 'cors';
 
 const app = express();
@@ -6,8 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/ping', (_request: Request, response: Response) => {
-  response.send('pong');
-});
+app.use('/drinks', DrinksRouter);
 
 export default app;
