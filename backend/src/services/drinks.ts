@@ -1,7 +1,7 @@
 import { Drink, DrinkType, NewDrink } from '../types/Drink';
 import { v1 as uuid } from 'uuid';
 
-const drinks: Drink[] = [];
+let drinks: Drink[] = [];
 
 /**
  * Returns saved drinks. Optional filtering by type and name of drink.
@@ -53,6 +53,19 @@ const createDrink = (drinkToCreate: NewDrink): Drink => {
 
   return drinkToReturn;
 
+};
+
+const clearAllDrinks = () => {
+  drinks = [];
+};
+
+const setDrinks = (drinksToSet: Drink[]) => {
+  drinks = drinksToSet;
+};
+
+export const exportForTesting = {
+  setDrinks,
+  clearAllDrinks
 };
 
 export default {
