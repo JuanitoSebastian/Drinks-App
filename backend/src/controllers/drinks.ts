@@ -50,7 +50,7 @@ router.post('/', (request: Request, response: Response, next: NextFunction) => {
     const newDrink = parseNewDrink(request.body);
     const drinkToReturn = DrinksService.createDrink(newDrink);
 
-    response.json({ data: drinkToReturn });
+    response.status(201).json({ data: drinkToReturn });
   } catch (error) {
     next(error);
   }
