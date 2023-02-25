@@ -1,6 +1,6 @@
 
 export interface Drink {
-  id: number;
+  id: string;
   type: DrinkType;
   name: string;
   price: number;

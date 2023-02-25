@@ -1,4 +1,5 @@
 import { Drink, DrinkType, NewDrink } from '../types/Drink';
+import { v1 as uuid } from 'uuid';
 
 const drinks: Drink[] = [];
 
@@ -39,19 +40,12 @@ const getManyByName = (type: DrinkType|undefined = undefined, name: string): Dri
  * @returns Drink
  */
 const createDrink = (drinkToCreate: NewDrink): Drink => {
-  if (drinks.length === 0) {
-    const drinkToReturn: Drink = {
-      id: 0, 
-      ...drinkToCreate
-    };
-    return drinkToReturn;
-  }
-
-  const latestDrink = drinks[drinks.length - 1];
   const drinkToReturn: Drink = {
-    id: latestDrink.id + 1,
+    id: uuid(),
     ...drinkToCreate
   };
+
+  drinks.push(drinkToReturn);
 
   return drinkToReturn;
 
