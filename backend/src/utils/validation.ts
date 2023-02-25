@@ -54,7 +54,8 @@ const isNewDrink = (newDrink: unknown): newDrink is NewDrink => {
   'type' in newDrink && isDrinkType(newDrink.type) &&
   'name' in newDrink && isString(newDrink.name) &&
   'price' in newDrink && isNumber(newDrink.price) &&
-  'roast' in newDrink && isRoast(newDrink.roast);
+  'roast' in newDrink && isRoast(newDrink.roast) &&
+  'weight' in newDrink && isNumber(newDrink.weight);
 };
 
 export const parseNewDrink = (newDrink: unknown): NewDrink => {

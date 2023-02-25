@@ -4,6 +4,7 @@ export interface Drink {
   type: DrinkType;
   name: string;
   price: number;
+  weight: number;
   roast: Roast;
 }
 
