@@ -1,49 +1,22 @@
 import express, { NextFunction, Request, Response } from 'express';
 import DrinksService from '../services/drinks';
-import { parseNewDrink } from '../utils/validation';
+import { parseDrinkType, parseNewDrink } from '../utils/validation';
 
 const router = express.Router();
 
 router.get('/', (request: Request, response: Response) => {
+  const typeOfDrinkString = request.query.type?.toString();
   const searchQuery = request.query.search?.toString();
 
-  if (searchQuery) {
+  try {
+    const typeOfDrink = parseDrinkType(typeOfDrinkString);
+    const drinks = DrinksService.getMany(typeOfDrink, searchQuery);
+    response.json({ data: drinks });
+  } catch {
     const drinks = DrinksService.getMany(undefined, searchQuery);
     response.json({ data: drinks });
-    return;
   }
-
-  const drinks = DrinksService.getMany();
-  response.json({ data: drinks });
 });
-
-
-router.get('/coffees', (request: Request, response: Response) => {
-  const searchQuery = request.query.search?.toString();
-
-  if (searchQuery) {
-    const drinks = DrinksService.getMany('coffee', searchQuery);
-    response.json({ data: drinks });
-    return;
-  }
-
-  const drinks = DrinksService.getMany('coffee');
-  response.json({ data: drinks });
-});
-
-router.get('/teas', (request: Request, response: Response) => {
-  const searchQuery = request.query.search?.toString();
-
-  if (searchQuery) {
-    const drinks = DrinksService.getMany('tea', searchQuery);
-    response.json({ data: drinks });
-    return;
-  }
-
-  const drinks = DrinksService.getMany('tea');
-  response.json({ data: drinks });
-});
-
 
 router.post('/', (request: Request, response: Response, next: NextFunction) => {
   try {
