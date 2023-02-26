@@ -22,7 +22,9 @@ describe('Drinks endpoint', () => {
 
   test('Filter by search returns matches', async () => {
     const searchString = 'lucaffe';
-    const response = await api.get(`/drinks?search=${searchString}`);
+    const response = await api
+      .get('/drinks')
+      .query({ search: searchString });
     expect(response.body.data).toHaveLength(2);
     expect(response.body.data[0].name).toEqual('Lucaffe Mamma Lucia');
     expect(response.body.data[1].name).toEqual('Lucaffe Decaffeinato');
@@ -30,7 +32,9 @@ describe('Drinks endpoint', () => {
 
   test('Filter by search returns [] when no matches', async () => {
     const searchString = 'kaffa';
-    const response = await api.get(`/drinks?search=${searchString}`);
+    const response = await api
+      .get('/drinks')
+      .query({ search: searchString });
     expect(response.body.data).toHaveLength(0);
   });
 
@@ -55,38 +59,50 @@ describe('Drinks endpoint', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
-      expect(response.body.error).toBeDefined();
+    expect(response.body.error).toBeDefined();
   });
 
-  describe('Coffees endpoint', () => {
+  describe('Coffees', () => {
     test('Only coffees are returned', async () => {
-      const response = await api.get('/drinks/coffees');
+      const response = await api
+        .get('/drinks')
+        .query({ type: 'coffee' });
       expect(response.body.data).toEqual(testDrinks.filter(drink => drink.type === 'coffee'));
     });
 
     test('Filter by search returns only coffee', async () => {
       const searchStringCoffee = 'lucaffe';
-      let response = await api.get(`/drinks/coffees?search=${searchStringCoffee}`);
+      let response = await api
+        .get('/drinks')
+        .query({ type: 'coffee', search: searchStringCoffee });
       expect(response.body.data).toHaveLength(2);
       const searchStringTea = 'herukka';
-      response = await api.get(`/drinks/coffees?search=${searchStringTea}`);
+      response = await api
+        .get('/drinks')
+        .query({ type: 'coffee', search: searchStringTea });
       expect(response.body.data).toHaveLength(0);
     });
   });
 
-  describe('Teas endpoint', () => {
+  describe('Teas', () => {
     test('Only teas are returned', async () => {
-      const response = await api.get('/drinks/teas');
+      const response = await api
+        .get('/drinks')
+        .query({ type: 'tea' });
       expect(response.body.data).toEqual(testDrinks.filter(drink => drink.type === 'tea'));
     });
 
     test('Filter by search returns only tea', async () => {
       const searchStringTea = 'herukka';
-      let response = await api.get(`/drinks/teas?search=${searchStringTea}`);
+      let response = await api
+        .get('/drinks')
+        .query({ type: 'tea', search: searchStringTea });
       expect(response.body.data).toHaveLength(1);
 
       const searchStringCoffee = 'lucaffe';
-      response = await api.get(`/drinks/teas?search=${searchStringCoffee}`);
+      response = await api
+        .get('/drinks')
+        .query({ type: 'tea', search: searchStringCoffee });
       expect(response.body.data).toHaveLength(0);
     });
   });
