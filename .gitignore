@@ -45,3 +45,6 @@ yarn.lock
 
 # VS CODE
 .vscode
+
+# .csv persisting of drinks
+/backend/data
