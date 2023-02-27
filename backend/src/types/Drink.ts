@@ -8,6 +8,16 @@ export interface Drink {
   roast: Roast;
 }
 
+
+export interface DrinkFromCsv {
+  id: string;
+  type: string;
+  name: string;
+  price: string;
+  weight: string;
+  roast: string;
+}
+
 export type DrinkType = 'coffee'|'tea';
 export type Roast = 1|2|3|4|5;
 
