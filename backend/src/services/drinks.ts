@@ -1,5 +1,6 @@
 import { Drink, DrinkType, NewDrink } from '../types/Drink';
 import { v1 as uuid } from 'uuid';
+import DrinksStore from '../stores/drinks';
 
 let drinks: Drink[] = [];
 
@@ -50,13 +51,17 @@ const createDrink = (drinkToCreate: NewDrink): Drink => {
   };
 
   drinks.push(drinkToReturn);
-
+  DrinksStore.setAll(drinks);
   return drinkToReturn;
+};
 
+const loadDrinksFromStore = async () => {
+  drinks = await DrinksStore.getAll();
 };
 
 const clearAllDrinks = () => {
   drinks = [];
+  DrinksStore.clearAll();
 };
 
 const setDrinks = (drinksToSet: Drink[]) => {
@@ -70,5 +75,6 @@ export const exportForTesting = {
 
 export default {
   getMany,
-  createDrink
+  createDrink,
+  loadDrinksFromStore
 };

@@ -1,4 +1,4 @@
-import { DrinkType, NewDrink, Roast } from '../types/Drink';
+import { Drink, DrinkFromCsv, DrinkType, NewDrink, Roast } from '../types/Drink';
 import ValidationError from '../errors/ValidationError';
 
 export const isString = (text: unknown): text is string => {
@@ -64,4 +64,55 @@ export const parseNewDrink = (newDrink: unknown): NewDrink => {
   }
 
   return newDrink;
+};
+
+const isDrinkFromCsv = (drink: unknown): drink is DrinkFromCsv => {
+  return drink !== null && typeof drink === 'object' &&
+  'id' in drink && isString(drink.id) &&
+  'type' in drink && isString(drink.type) &&
+  'name' in drink && isString(drink.name) &&
+  'price' in drink && isString(drink.price) &&
+  'roast' in drink && isString(drink.roast) &&
+  'weight' in drink && isString(drink.weight);
+};
+
+export const parseDrinkFromCsv = (drinkFromCsv: unknown): DrinkFromCsv => {
+  if (!drinkFromCsv || !isDrinkFromCsv(drinkFromCsv)) {
+    throw new ValidationError('Incorrect type, not a DrinkFromCsv');
+  }
+
+  return drinkFromCsv;
+};
+
+export const parseDrinkFromDrinkFromCsv = (drinkFromCsv: DrinkFromCsv): Drink => {
+  const price = parseFloat(drinkFromCsv.price);
+  const roast = parseInt(drinkFromCsv.roast);
+  const weight = parseFloat(drinkFromCsv.weight);
+  return {
+    id: drinkFromCsv.id,
+    type: parseDrinkType(drinkFromCsv.type),
+    name: drinkFromCsv.name,
+    price: price,
+    roast: parseRoast(roast),
+    weight: weight
+  };
+};
+
+export const isArray = (array: unknown): array is [] => {
+  return Array.isArray(array);
+};
+
+export const parseUnkownArray = (unknown: unknown): unknown[] => {
+  if (!isArray(unknown)) {
+    throw new ValidationError('Incorrect type, not array');
+  }
+  return unknown;
+};
+
+export const parseStringArray = (unkownArray: unknown): string[] => {
+  if (!isArray(unkownArray)) {
+    throw new ValidationError('Incorrect type, not array');
+  }
+  const stringArray = unkownArray.map(text => parseString(text));
+  return stringArray;
 };
