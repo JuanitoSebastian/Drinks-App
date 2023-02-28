@@ -38,7 +38,8 @@ export const parseDrinkType = (drinkType: unknown): DrinkType => {
 };
 
 const isRoast = (roast: unknown): roast is Roast => {
-  return isNumber(roast) && roast > 0 && roast < 6;
+  return isNumber(roast) && roast > 0 && roast < 6 &&
+  Number.isInteger(roast);
 };
 
 export const parseRoast = (roast: unknown): Roast => {
