@@ -2,6 +2,7 @@
 A small web application for saving your favorite coffees and teas. The front end is a Typescript React (Vite) and the back end is Typescript Express. 
 
 ## 🏃 Running a production build
+You have to have [docker and docker-compose installed](https://docs.docker.com/compose/install/) for running the application.
 1. Clone the repository by running `git clone https://github.com/JuanitoSebastian/Drinks-App.git`
 2. Open terminal at the root of the repository and run `docker compose up`
 3. The application launches at `localhost:80`
