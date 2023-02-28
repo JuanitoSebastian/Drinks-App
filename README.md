@@ -7,6 +7,11 @@ You have to have [docker and docker-compose installed](https://docs.docker.com/c
 2. Open terminal at the root of the repository and run `docker compose up`
 3. The application launches at `localhost:80`
 
+## 🛸 Running tests
+The application features integration tests for the back end created with jest and supertest. You have to have [docker and docker-compose installed](https://docs.docker.com/compose/install/) for running tests.
+1. Clone the repository by running `git clone https://github.com/JuanitoSebastian/Drinks-App.git`
+2. Open terminal at the root of the repository and run `docker-compose --file test.docker-compose.yml up`
+
 ## 📡 API endpoints
 
 ### Fetch many drinks
