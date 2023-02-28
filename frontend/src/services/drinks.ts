@@ -7,6 +7,7 @@ const drinkApiUrl = `${SanitizedConfig.API_URL}/drinks`;
 
 /**
  * Gets drinks from API
+ * @throws Axios and ValidationErrors
  */
 const getDrinks = async (): Promise<Drink[]> => {
   const rawApiResponse: AxiosResponse<unknown, unknown> = await axios.get(drinkApiUrl);
@@ -15,6 +16,12 @@ const getDrinks = async (): Promise<Drink[]> => {
   return sanitizedDrinks;
 };
 
+/**
+ * Posts a new drink to API and returns the created drink
+ * @param drinkToCreate NewDrink object to create
+ * @throws Axios and ValidationErrors
+ * @returns On success new Drink
+ */
 const createDrink = async (drinkToCreate: NewDrink): Promise<Drink> => {
   const rawApiResponse: AxiosResponse<unknown, unknown> = await axios.post(drinkApiUrl, drinkToCreate);
   const apiRepsonse = parseApiResponse(rawApiResponse.data);
