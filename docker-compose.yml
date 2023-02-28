@@ -1,0 +1,28 @@
+
+version: '3.8'
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        - API_URL=/api
+    container_name: drinks-frontend
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80
+    container_name: reverse-proxy
+    depends_on:
+      - frontend
+      - backend
+
+  backend:
+    build: ./backend
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    container_name: drinks-backend
