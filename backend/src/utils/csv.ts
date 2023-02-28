@@ -1,6 +1,6 @@
 import csvParser from 'csv-parse';
 import csvStringify from 'csv-stringify';
-import { createReadStream, createWriteStream, mkdir, openSync, closeSync } from 'fs';
+import { createReadStream, createWriteStream, mkdir, openSync, closeSync, existsSync } from 'fs';
 import path from 'node:path';
 
 /**
@@ -11,15 +11,28 @@ import path from 'node:path';
  * @returns An array containing all rows of .csv (including header row)
  */
 const readCsvFile = async (directory: string, filename: string): Promise<unknown[]> => {
+  const pathToFile = path.join(__dirname, '..', '..', directory, filename);
+
+  if (!existsSync(pathToFile)) {
+    return [];
+  }
+
   const records: unknown[] = [];
-  const parser = createReadStream(path.join(__dirname, '..', '..', directory, filename))
-    .pipe(csvParser.parse());
+  const stream = createReadStream(pathToFile);
+
+  stream.on('error', (error) => {
+    stream.close();
+    throw error;
+  });
+
+  const parser = stream.pipe(csvParser.parse());
 
   for await (const record of parser) {
     records.push(record);
   }
 
   return records;
+
 };
 
 /**
