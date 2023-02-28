@@ -1,0 +1,12 @@
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: ./test.Dockerfile
+    environment:
+      - PORT=3000
+      - NODE_ENV=test
+    container_name: drinks-backend-test
