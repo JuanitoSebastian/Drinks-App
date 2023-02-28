@@ -1,4 +1,4 @@
-import { Drink, DrinkType, Roast } from '../types/Drink';
+import { Drink, DrinkType, NewDrink, Roast } from '../types/Drink';
 import ValidationError from '../errors/ValidationError';
 import { ApiResponse } from '../types/ApiResponse';
 
@@ -75,6 +75,14 @@ export const parseDrinkArray = (drinkArray: unknown): Drink[] => {
   return drinkArray;
 };
 
+export const parseDrink = (drink: unknown): Drink => {
+  if (!drink || !isDrink(drink)) {
+    throw new ValidationError('Incorrect type, not a Drink');
+  }
+
+  return drink;
+};
+
 export const isArray = (array: unknown): array is [] => {
   return Array.isArray(array);
 };
@@ -90,4 +98,21 @@ export const parseApiResponse = (apiResponse: unknown): ApiResponse => {
   }
 
   return apiResponse;
+};
+
+const isNewDrink = (newDrink: unknown): newDrink is NewDrink => {
+  return newDrink !== null && typeof newDrink === 'object' &&
+  'type' in newDrink && isDrinkType(newDrink.type) &&
+  'name' in newDrink && isString(newDrink.name) &&
+  'price' in newDrink && isNumber(newDrink.price) &&
+  'roast' in newDrink && isRoast(newDrink.roast) &&
+  'weight' in newDrink && isNumber(newDrink.weight);
+};
+
+export const parseNewDrink = (newDrink: unknown): NewDrink => {
+  if (!newDrink || !isNewDrink(newDrink)) {
+    throw new ValidationError('Incorrect type, not a NewDrink');
+  }
+
+  return newDrink;
 };

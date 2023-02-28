@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import { Drink } from '../types/Drink';
+import { Drink, NewDrink } from '../types/Drink';
 import SanitizedConfig from '../utils/config';
-import { parseApiResponse, parseDrinkArray } from '../utils/validation';
+import { parseApiResponse, parseDrink, parseDrinkArray } from '../utils/validation';
 
 const drinkApiUrl = `${SanitizedConfig.API_URL}/drinks`;
 
@@ -15,7 +15,15 @@ const getDrinks = async (): Promise<Drink[]> => {
   return sanitizedDrinks;
 };
 
+const createDrink = async (drinkToCreate: NewDrink): Promise<Drink> => {
+  const rawApiResponse: AxiosResponse<unknown, unknown> = await axios.post(drinkApiUrl, drinkToCreate);
+  const apiRepsonse = parseApiResponse(rawApiResponse.data);
+  const drink = parseDrink(apiRepsonse.data);
+  return drink;
+};
+
 
 export default {
-  getDrinks
+  getDrinks,
+  createDrink
 };
