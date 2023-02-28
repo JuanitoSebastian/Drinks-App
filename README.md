@@ -21,7 +21,7 @@ GET /api/drinks?type={{type}}&search={{search}}
 | Parameter | Type   | Required? | Description                                       |
 |-----------|--------|-----------|---------------------------------------------------|
 | type      | enum   | no        | Type of drink. Enum values: **coffee** or **tea** |
-| search    | string | no        | Sort direction. Supports ASC and DESC.            |
+| search    | string | no        | Search by name of drink.                          |
 
 **Example response**
 ```
